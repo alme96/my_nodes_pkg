@@ -39,7 +39,7 @@ void Evaluation::ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf)
 
     bottom = 1;
 
-    cout << "Timing ekf = " << ros::Time::now() << "\n";
+    // cout << "Timing ekf = " << ros::Time::now() << "\n";
 
     ekf_counter++;
   }
@@ -84,7 +84,7 @@ void Evaluation::viconCallback(const nav_msgs::Odometry::ConstPtr& vicon)
 
     bottom = 0;
 
-    cout << "Timing vicon = " << ros::Time::now() << "\n";
+    // cout << "Timing vicon = " << ros::Time::now() << "\n";
 
     ekf_counter = 0;
   }
