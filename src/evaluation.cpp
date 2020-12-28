@@ -39,7 +39,7 @@ void Evaluation::ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf)
 
     bottom = 1;
 
-    // cout << "Timing ekf = " << ros::Time::now() << "\n";
+
 
     ekf_counter++;
   }
@@ -114,10 +114,10 @@ void Evaluation::error_calculation()
   if (N<M) {
     cout << "N<M" << "\n";
     //cancel last data
-    position_ekf.rows(0,N-1);
-    lin_vel_ekf.rows(0,N-1);
-    orientation_ekf.rows(0,N-1);
-    ang_vel_ekf.rows(0,N-1);
+    position_ekf = position_ekf.rows(0,N-1);
+    lin_vel_ekf = lin_vel_ekf.rows(0,N-1);
+    orientation_ekf = orientation_ekf.rows(0,N-1);
+    ang_vel_ekf =  ang_vel_ekf.rows(0,N-1);
 
     // for (int i = 1; i<N; i++){
     //   for (int j = i; j<M; j++){
@@ -200,10 +200,10 @@ void Evaluation::error_calculation()
   }
   else if (N>M) {
     cout << "N>M" << "\n";
-    position_vicon.rows(0,M-1);
-    lin_vel_vicon.rows(0,M-1);
-    orientation_vicon.rows(0,M-1);
-    ang_vel_vicon.rows(0,M-1);
+    position_vicon = position_vicon.rows(0,M-1);
+    lin_vel_vicon = lin_vel_vicon.rows(0,M-1);
+    orientation_vicon = orientation_vicon.rows(0,M-1);
+    ang_vel_vicon = ang_vel_vicon.rows(0,M-1);
 
     // for (int i = 1; i<M; i++){
     //   for (int j = i; j<N; j++){
@@ -342,12 +342,11 @@ void Evaluation::error_calculation()
   peak_linvel_error.print("peak_linvel_error:");
   peak_anglvel_error.print("peak_anglvel_error");
 
-  position_error.save("/home/menichea/evaluation/position_error.txt", arma_ascii);
-  distance_error.save("/home/menichea/evaluation/distance_error.txt", arma_ascii);
-  lin_vel_error.save("/home/menichea/evaluation/lin_vel_error.txt", arma_ascii);
-  ang_vel_error.save("/home/menichea/evaluation/ang_vel_error.txt", arma_ascii);
-  peak_pos_error.save("/home/menichea/evaluation/peak_pos_error.txt", arma_ascii);
-  peak_dist_error.save("/home/menichea/evaluation/peak_dist_error.txt", arma_ascii);
-  peak_linvel_error.save("/home/menichea/evaluation/peak_linvel_error.txt", arma_ascii);
-  peak_anglvel_error.save("/home/menichea/evaluation/peak_anglvel_error.txt", arma_ascii);
+  position_error.save("/home/menichea/results/position_error.txt", arma_ascii);
+  distance_error.save("/home/menichea/results/distance_error.txt", arma_ascii);
+  lin_vel_error.save("/home/menichea/results/lin_vel_error.txt", arma_ascii);
+  peak_pos_error.save("/home/menichea/results/peak_pos_error.txt", arma_ascii);
+  peak_dist_error.save("/home/menichea/results/peak_dist_error.txt", arma_ascii);
+  peak_linvel_error.save("/home/menichea/results/peak_linvel_error.txt", arma_ascii);
+  peak_anglvel_error.save("/home/menichea/results/peak_anglvel_error.txt", arma_ascii);
 }

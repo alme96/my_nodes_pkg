@@ -20,6 +20,7 @@ catkin_package( CATKIN_DEPENDS
 add_library( my_lib
  src/evaluation.cpp
  src/rewrite_imu.cpp
+ src/get_imu_cov.cpp
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${ARMADILLO_INCLUDE_DIRS})
@@ -29,3 +30,6 @@ target_link_libraries(evaluation_node ${catkin_LIBRARIES} my_lib ${ARMADILLO_LIB
 
 add_executable(rewrite_imu_node src/rewrite_imu_node.cpp)
 target_link_libraries(rewrite_imu_node ${catkin_LIBRARIES} my_lib)
+
+add_executable(get_imu_cov_node src/get_imu_cov_node.cpp)
+target_link_libraries(get_imu_cov_node ${catkin_LIBRARIES} my_lib)
