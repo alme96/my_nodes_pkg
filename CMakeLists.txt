@@ -29,7 +29,7 @@ add_executable(evaluation_node src/evaluation_node.cpp)
 target_link_libraries(evaluation_node ${catkin_LIBRARIES} my_lib ${ARMADILLO_LIBRARIES})
 
 add_executable(rewrite_imu_node src/rewrite_imu_node.cpp)
-target_link_libraries(rewrite_imu_node ${catkin_LIBRARIES} my_lib)
+target_link_libraries(rewrite_imu_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
 
 add_executable(get_imu_cov_node src/get_imu_cov_node.cpp)
-target_link_libraries(get_imu_cov_node ${catkin_LIBRARIES} my_lib)
+target_link_libraries(get_imu_cov_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
