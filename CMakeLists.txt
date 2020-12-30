@@ -21,6 +21,7 @@ add_library( my_lib
  src/evaluation.cpp
  src/rewrite_imu.cpp
  src/get_imu_cov.cpp
+ src/transform_ekf.cpp
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${ARMADILLO_INCLUDE_DIRS})
@@ -33,3 +34,6 @@ target_link_libraries(rewrite_imu_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LI
 
 add_executable(get_imu_cov_node src/get_imu_cov_node.cpp)
 target_link_libraries(get_imu_cov_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
+
+add_executable(transform_ekf_node src/transform_ekf_node.cpp)
+target_link_libraries(transform_ekf_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
