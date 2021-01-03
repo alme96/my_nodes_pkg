@@ -32,7 +32,7 @@ class Transform_Ekf {
       // R_y = {{cos(pitch),0,sin(pitch)},{0,1,0},{-sin(pitch),0,cos(pitch)}};
       // R_x = {{1,0,0},{0,cos(z_angle),-sin(z_angle)},{0,-sin(z_angle),cos(z_angle)}};
       // R = inv(R_z*R_y*R_x);
-      R = {{cos(z_angle),-sin(z_angle),0},{sin(z_angle),cos(z_angle),0},{0,0,1}};
+      R = {{cos(z_angle),-sin(z_angle),0.0},{sin(z_angle),cos(z_angle),0.0},{0.0,0.0,1}};
       // R = {{R_00, R[0][1], R[0][2]}, {R[1][0], R[1][1], R[1][2]}, {R[2][0], R[2][1], R[2][2]}};
 
     };
@@ -44,31 +44,35 @@ class Transform_Ekf {
     ros::Publisher pub;
     nav_msgs::Odometry new_ekf;
 
-    float z_angle;
+    double z_angle;
     double roll;
     double pitch;
     double yaw;
-    float R_00;
+    double R_00;
 
-    fvec old_pose;
-    fvec old_lin_vel;
-    fvec old_ang_vel;
-    fvec new_pose;
-    fvec new_lin_vel;
-    fvec new_ang_vel;
-    fvec r;
-    fvec old_pose_cov;
-    fvec new_pose_cov;
-    fvec old_lin_vel_cov;
-    fvec new_lin_vel_cov;
+    vec old_pose;
+    vec old_lin_vel;
+    vec old_ang_vel;
+    vec new_pose;
+    vec new_lin_vel;
+    vec new_ang_vel;
+    vec r;
+    // vec old_pose_cov;
+    // vec new_pose_cov;
+    vec old_lin_vel_cov;
+    vec new_lin_vel_cov;
 
-    fmat R;
-    fmat R_x;
-    fmat R_y;
-    fmat R_z;
-    fmat T;
+    mat R;
+    mat R_x;
+    mat R_y;
+    mat R_z;
+    mat T;
+    // mat old_pos_cov;
+    mat new_pos_cov;
+    // mat old_ori_cov;
+    mat new_ori_cov;
 
-    Matrix3x3 R_0;
+    // Matrix3x3 R_0;
     Quaternion q_transf;
     Quaternion old_quat;
     Quaternion new_quat;
