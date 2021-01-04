@@ -38,9 +38,9 @@ void Transform_Ekf::transf_ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf_o
   new_pos_cov = R*old_pos_cov;
   new_ori_cov = R*old_ori_cov;
 
-  new_pos_cov.print("new_pos_cov:");
-  new_ori_cov.print("new_ori_cov:");
-  // write new message with transformed values
+  // new_pos_cov.print("new_pos_cov:");
+  // new_ori_cov.print("new_ori_cov:");
+  // // write new message with transformed values
   new_ekf.pose.pose.position.x = new_pose(0);
   new_ekf.pose.pose.position.y = new_pose(1);
   new_ekf.pose.pose.position.z = new_pose(2);

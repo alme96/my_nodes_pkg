@@ -349,4 +349,5 @@ void Evaluation::error_calculation()
   peak_dist_error.save("/home/menichea/results/peak_dist_error.txt", arma_ascii);
   peak_linvel_error.save("/home/menichea/results/peak_linvel_error.txt", arma_ascii);
   peak_anglvel_error.save("/home/menichea/results/peak_anglvel_error.txt", arma_ascii);
+
 }
