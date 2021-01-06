@@ -5,8 +5,8 @@ void Transform_Ekf::transf_ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf_o
 
   // extract pose and linear velocity
   old_pose = {ekf_old->pose.pose.position.x, ekf_old->pose.pose.position.y, ekf_old->pose.pose.position.z, 1};
-  old_lin_vel = {ekf_old->twist.twist.linear.x, ekf_old->twist.twist.linear.y, ekf_old->twist.twist.linear.z};
-  old_ang_vel = {ekf_old->twist.twist.angular.x, ekf_old->twist.twist.angular.y, ekf_old->twist.twist.angular.z};
+  // old_lin_vel = {ekf_old->twist.twist.linear.x, ekf_old->twist.twist.linear.y, ekf_old->twist.twist.linear.z};
+  // old_ang_vel = {ekf_old->twist.twist.angular.x, ekf_old->twist.twist.angular.y, ekf_old->twist.twist.angular.z};
   convert(ekf_old->pose.pose.orientation, old_quat);
 
   mat old_pos_cov(3,3, fill::zeros);
@@ -31,8 +31,8 @@ void Transform_Ekf::transf_ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf_o
   T = join_horiz(T,r);
 
   // transform pose and verlocity
-  new_lin_vel = R*old_lin_vel;
-  new_ang_vel = R*old_ang_vel;
+  // new_lin_vel = R*old_lin_vel;
+  // new_ang_vel = R*old_ang_vel;
   new_pose = T*old_pose;
   new_quat = q_transf*old_quat;
   new_pos_cov = R*old_pos_cov;
