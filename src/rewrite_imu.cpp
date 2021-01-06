@@ -2,18 +2,18 @@
 
 void Rewrite_Imu::imuCallback(const sensor_msgs::Imu::ConstPtr& imu)
 {
-  if (counter == 0) {
-    lin_acc_offset_x = imu->linear_acceleration.x;
-    lin_acc_offset_y = imu->linear_acceleration.y;
-    lin_acc_offset_z = imu->linear_acceleration.z;
-
-    ang_vel_offset_x = imu->angular_velocity.x;
-    ang_vel_offset_y = imu->angular_velocity.y;
-    ang_vel_offset_z = imu->angular_velocity.z;
-
-    counter = 1;
-  }
-  else {
+  // if (counter == 0) {
+  //   lin_acc_offset_x = imu->linear_acceleration.x;
+  //   lin_acc_offset_y = imu->linear_acceleration.y;
+  //   lin_acc_offset_z = imu->linear_acceleration.z;
+  //
+  //   ang_vel_offset_x = imu->angular_velocity.x;
+  //   ang_vel_offset_y = imu->angular_velocity.y;
+  //   ang_vel_offset_z = imu->angular_velocity.z;
+  //
+  //   counter = 1;
+  // }
+  // else {
     //Update covariance matrices in order to pass the filter
     new_imu.angular_velocity_covariance = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     new_imu.linear_acceleration_covariance = {3e-05, 0.0, 0.0, 0.0, 3e-05, 0.0, 0.0, 0.0, 3e-05};
@@ -45,8 +45,9 @@ void Rewrite_Imu::imuCallback(const sensor_msgs::Imu::ConstPtr& imu)
     //
     new_imu.angular_velocity = imu->angular_velocity;
     new_imu.linear_acceleration = imu->linear_acceleration;
-    // new_imu.orientation_covariance = imu->orientation_covariance;
+    new_imu.orientation = imu->orientation;
+    new_imu.orientation_covariance = imu->orientation_covariance;
 
     pub.publish(new_imu);
-  }
+  // }
 }
