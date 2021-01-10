@@ -35,6 +35,8 @@ class Transform_Ekf {
       R = {{cos(z_angle),-sin(z_angle),0.0},{sin(z_angle),cos(z_angle),0.0},{0.0,0.0,1}};
       // R = {{R_00, R[0][1], R[0][2]}, {R[1][0], R[1][1], R[1][2]}, {R[2][0], R[2][1], R[2][2]}};
 
+      time_start = ros::Time::now();
+
     };
 
     void transf_ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf_old);
@@ -76,6 +78,9 @@ class Transform_Ekf {
     Quaternion q_transf;
     Quaternion old_quat;
     Quaternion new_quat;
+
+    ros::Time time_start;
+    // ros::Time duration:
 
 };
 

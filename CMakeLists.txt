@@ -37,3 +37,6 @@ target_link_libraries(get_imu_cov_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LI
 
 add_executable(transform_ekf_node src/transform_ekf_node.cpp)
 target_link_libraries(transform_ekf_node my_lib ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
+
+add_executable(pub_sim_dur_node src/pub_sim_dur_node.cpp)
+target_link_libraries(pub_sim_dur_node ${catkin_LIBRARIES})
