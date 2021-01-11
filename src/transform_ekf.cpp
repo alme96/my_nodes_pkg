@@ -68,7 +68,8 @@ void Transform_Ekf::transf_ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf_o
   // new_ekf.twist.twist.angular.y = new_ang_vel(1);
   // new_ekf.twist.twist.angular.z = new_ang_vel(2);
 
-  new_ekf.twist = ekf_old->twist;
+  new_ekf.twist.twist.linear.x = ekf_old->twist.covariance[0];
+  new_ekf.twist.twist.linear.y = ekf_old->twist.covariance[7];
 
   convert(new_quat, new_ekf.pose.pose.orientation);
 
