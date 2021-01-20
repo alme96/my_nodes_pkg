@@ -27,21 +27,25 @@ void Get_Imu_Cov::imu_cov_calculation() {
   // delete first row
   collect_ang_vel = collect_ang_vel.rows(1,N-1);
   collect_lin_acc = collect_lin_acc.rows(1,N-1);
+  
+  // compute covariance matrix
+  fmat cov_acc = cov(collect_lin_acc);
+  fmat cov_ang = cov(collect_ang_vel);
 
   // compute mean value
-  fmat mean_lin_acc = sum(collect_lin_acc, 0)/(N-1);
-  fmat mean_ang_vel = sum(collect_ang_vel, 0)/(N-1);
-  mean_lin_acc.print("Linear acceleration mean value:");
-  mean_ang_vel.print("Angular velocity mean value:");
+  //fmat mean_lin_acc = sum(collect_lin_acc, 0)/(N-1);
+  //fmat mean_ang_vel = sum(collect_ang_vel, 0)/(N-1);
+  //mean_lin_acc.print("Linear acceleration mean value:");
+  //mean_ang_vel.print("Angular velocity mean value:");
 
   // compute covariance
-  fmat mean_lin_acc_matrix(collect_lin_acc.n_rows, collect_lin_acc.n_cols, fill::zeros);
-  fmat mean_ang_vel_matrix(collect_ang_vel.n_rows, collect_ang_vel.n_cols, fill::zeros);
+  //fmat mean_lin_acc_matrix(collect_lin_acc.n_rows, collect_lin_acc.n_cols, fill::zeros);
+  //fmat mean_ang_vel_matrix(collect_ang_vel.n_rows, collect_ang_vel.n_cols, fill::zeros);
 
-  for (int i = 0; i<N-1 ; i++) {
-    mean_lin_acc_matrix.row(i) = mean_lin_acc;
-    mean_ang_vel_matrix.row(i) = mean_ang_vel;
-  }
+  //for (int i = 0; i<N-1 ; i++) {
+    //mean_lin_acc_matrix.row(i) = mean_lin_acc;
+    //mean_ang_vel_matrix.row(i) = mean_ang_vel;
+  //}
 
   // collect_lin_acc.print("collected linear accelerations: ");
   // collect_ang_vel.print("collected angular velocities: ");
@@ -54,10 +58,14 @@ void Get_Imu_Cov::imu_cov_calculation() {
   // fmat diff_diff = diff%diff;
   // diff_diff.print("diff^2");
 
-  fmat lin_acc_cov = sum((collect_lin_acc-mean_lin_acc_matrix)%(collect_lin_acc-mean_lin_acc_matrix), 0)/(N-1);
-  fmat ang_vel_cov = sum((collect_ang_vel-mean_ang_vel_matrix)%(collect_ang_vel-mean_ang_vel_matrix), 0)/(N-1);
+  //fmat lin_acc_cov = sum((collect_lin_acc-mean_lin_acc_matrix)%(collect_lin_acc-mean_lin_acc_matrix), 0)/(N-1);
+  //fmat ang_vel_cov = sum((collect_ang_vel-mean_ang_vel_matrix)%(collect_ang_vel-mean_ang_vel_matrix), 0)/(N-1);
 
-  lin_acc_cov.print("Linear acceleration covariance: ");
-  ang_vel_cov.print("Angular velocity covariance: ");
-
+  //lin_acc_cov.print("Linear acceleration variance: ");
+  //ang_vel_cov.print("Angular velocity variance: ");
+  cov_acc.print("Linear acceleration covariance matrix:");
+  cov_ang.print("Angular velocity covariance matrix:");
+  
+  cov_acc.save("/home/menichea/catkin_ws/src/my_nodes_pkg/Imu_cov_matrices/cov_acc.txt", arma_ascii);
+  cov_ang.save("/home/menichea/catkin_ws/src/my_nodes_pkg/Imu_cov_matrices/cov_ang.txt", arma_ascii);
 }

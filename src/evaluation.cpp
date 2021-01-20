@@ -254,22 +254,22 @@ void Evaluation::error_calculation()
   final_position_error.print("final_position_error:");
   final_orientation_error.print("final_orientation_error:");
 
-  position_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/position_error.txt", arma_ascii);
-  distance_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/distance_error.txt", arma_ascii);
-  lin_vel_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/lin_vel_error.txt", arma_ascii);
-  ang_vel_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/ang_vel_error.txt", arma_ascii);
-  orientation_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/orientation_error.txt", arma_ascii);
+  position_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/position_error.txt", arma_ascii);
+  distance_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/distance_error.txt", arma_ascii);
+  lin_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/lin_vel_error.txt", arma_ascii);
+  ang_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/ang_vel_error.txt", arma_ascii);
+  orientation_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/orientation_error.txt", arma_ascii);
 
-  peak_pos_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/peak_pos_error.txt", arma_ascii);
-  peak_dist_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/peak_dist_error.txt", arma_ascii);
-  peak_linvel_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/peak_linvel_error.txt", arma_ascii);
-  peak_anglvel_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/peak_anglvel_error.txt", arma_ascii);
-  peak_orient_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/peak_orient_error.txt", arma_ascii);
+  peak_pos_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_pos_error.txt", arma_ascii);
+  peak_dist_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_dist_error.txt", arma_ascii);
+  peak_linvel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_linvel_error.txt", arma_ascii);
+  peak_anglvel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_anglvel_error.txt", arma_ascii);
+  peak_orient_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_orient_error.txt", arma_ascii);
 
-  final_lin_vel_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/final_lin_vel_error.txt", arma_ascii);
-  final_ang_vel_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/final_ang_vel_error.txt", arma_ascii);
-  final_distance_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/final_distance_error.txt", arma_ascii);
-  final_position_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/final_position_error.txt", arma_ascii);
-  final_orientation_error.save("/home/menichea/SemesterProject_RadialInertialStateEstimation/results/final_orientation_error.txt", arma_ascii);
+  final_lin_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_lin_vel_error.txt", arma_ascii);
+  final_ang_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_ang_vel_error.txt", arma_ascii);
+  final_distance_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_distance_error.txt", arma_ascii);
+  final_position_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_position_error.txt", arma_ascii);
+  final_orientation_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_orientation_error.txt", arma_ascii);
 
 }

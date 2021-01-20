@@ -14,7 +14,7 @@ class Get_Imu_Cov {
   public:
     Get_Imu_Cov(fmat mat_init) {
       counter = 0;
-      N = 1001;
+      N = 10001;
       collect_ang_vel = mat_init;
       collect_lin_acc = mat_init;
       data_extractor = mat_init;

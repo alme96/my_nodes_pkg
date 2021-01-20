@@ -2,21 +2,28 @@
 
 void Rewrite_Imu::imuCallback(const sensor_msgs::Imu::ConstPtr& imu)
 {
-  // if (counter == 0) {
-  //   lin_acc_offset_x = imu->linear_acceleration.x;
-  //   lin_acc_offset_y = imu->linear_acceleration.y;
-  //   lin_acc_offset_z = imu->linear_acceleration.z;
-  //
-  //   ang_vel_offset_x = imu->angular_velocity.x;
-  //   ang_vel_offset_y = imu->angular_velocity.y;
-  //   ang_vel_offset_z = imu->angular_velocity.z;
-  //
-  //   counter = 1;
-  // }
+  if (counter == 0) {
+    cov_acc.load("/home/menichea/catkin_ws/src/my_nodes_pkg/Imu_cov_matrices/cov_acc.txt");
+    cov_ang.load("/home/menichea/catkin_ws/src/my_nodes_pkg/Imu_cov_matrices/cov_ang.txt");
+
+    cov_acc.print("IMU linear acceleration covariance matrix:");
+    cov_ang.print("IMU angular velocity covariance matrix:");
+
+    int k = 0;
+    for (int i = 0; i<3; i++) {
+      for (int j = 0; j<3; j++) {
+        cov_acc_vec[k] = cov_acc(i,j);
+        cov_ang_vec[k] = cov_ang(i,j);
+        k++;
+      }
+    }
+
+    counter = 1;
+  }
   // else {
     //Update covariance matrices in order to pass the filter
-    new_imu.angular_velocity_covariance = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    new_imu.linear_acceleration_covariance = {3e-05, 0.0, 0.0, 0.0, 3e-05, 0.0, 0.0, 0.0, 3e-05};
+    new_imu.angular_velocity_covariance = cov_ang_vec;
+    new_imu.linear_acceleration_covariance = cov_acc_vec;
     //Copy the measurements from the old imu to the new imu message
     new_imu.header = imu->header;
     new_imu.header.stamp = ros::Time::now();
