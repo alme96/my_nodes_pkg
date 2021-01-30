@@ -7,46 +7,26 @@ void Evaluation::ekfCallback(const nav_msgs::Odometry::ConstPtr& ekf)
     actual_data(0,0) = ekf->pose.pose.position.x;
     actual_data(0,1) = ekf->pose.pose.position.y;
     actual_data(0,2) = ekf->pose.pose.position.z;
-    // actual_data(0,3) = 0;
-    // actual_data(0,4) = ros::Time::now().toSec();
-    // ROS_INFO("saved ekf time = [%f]", actual_data(0,4));
-    // cout << "Time now = " << ros::Time::now() << "\n";
-    // cout << "Time in sec float = " << ros::Time::now().toSec();
     position_ekf = join_vert(position_ekf, actual_data);
-    // position_ekf.print("position_ekf:");
-
-    // actual_data_orientation(0,0) = ekf->pose.pose.orientation.x;
-    // actual_data_orientation(0,1) = ekf->pose.pose.orientation.y;
-    // actual_data_orientation(0,2) = ekf->pose.pose.orientation.z;
-    // actual_data_orientation(0,3) = ekf->pose.pose.orientation.w;
 
     convert(ekf->pose.pose.orientation, quat);
-    // quat.setRPY(roll, pitch, yaw);
     Matrix3x3(quat).getRPY(roll, pitch, yaw);
-
     actual_data(0,0) = roll;
     actual_data(0,1) = pitch;
     actual_data(0,2) = yaw;
-
     orientations.pose.position.x = roll;
     orientations.pose.position.y = pitch;
     orientations.pose.position.z = yaw;
-
     orientation_ekf = join_vert(orientation_ekf, actual_data);
-    // orientation_ekf.print("orientation_ekf:");
 
     actual_data(0,0) = ekf->twist.twist.linear.x;
     actual_data(0,1) = ekf->twist.twist.linear.y;
     actual_data(0,2) = ekf->twist.twist.linear.z;
-    // actual_data(0,3) = 0;
-    // actual_data(0,4) = ros::Time::now().toSec();
     lin_vel_ekf = join_vert(lin_vel_ekf, actual_data);
 
     actual_data(0,0) = ekf->twist.twist.angular.x;
     actual_data(0,1) = ekf->twist.twist.angular.y;
     actual_data(0,2) = ekf->twist.twist.angular.z;
-    // actual_data(0,3) = 0;
-    // actual_data(0,4) = ros::Time::now().toSec();
     ang_vel_ekf = join_vert(ang_vel_ekf, actual_data);
 
     bottom = 1;
@@ -64,26 +44,16 @@ void Evaluation::viconCallback(const nav_msgs::Odometry::ConstPtr& vicon)
     actual_data(0,0) = vicon->pose.pose.position.x;
     actual_data(0,1) = vicon->pose.pose.position.y;
     actual_data(0,2) = vicon->pose.pose.position.z;
-    // actual_data(0,3) = 0;
-    // actual_data(0,4) = ros::Time::now().toSec();
-    // ROS_INFO("saved vicon time = [%f]", actual_data(0,4));
-    // cout << "Time now = " << ros::Time::now() << "\n";
-    // cout << "Time in sec float = " << ros::Time::now().toSec() << "\n";
-
     position_vicon = join_vert(position_vicon, actual_data);
 
     convert(vicon->pose.pose.orientation, quat);
-    // quat.setRPY(roll, pitch, yaw);
     Matrix3x3(quat).getRPY(roll, pitch, yaw);
-
     actual_data(0,0) = roll;
     actual_data(0,1) = pitch;
     actual_data(0,2) = yaw;
-
     orientations.pose.orientation.x = roll;
     orientations.pose.orientation.y = pitch;
     orientations.pose.orientation.z = yaw;
-
     orientations.header.stamp = ros::Time::now();
 
     pub.publish(orientations);
@@ -94,20 +64,14 @@ void Evaluation::viconCallback(const nav_msgs::Odometry::ConstPtr& vicon)
     actual_data(0,0) = vicon->twist.twist.linear.x;
     actual_data(0,1) = vicon->twist.twist.linear.y;
     actual_data(0,2) = vicon->twist.twist.linear.z;
-    // actual_data(0,3) = 0;
-    // actual_data(0,4) = ros::Time::now().toSec();
     lin_vel_vicon = join_vert(lin_vel_vicon, actual_data);
 
     actual_data(0,0) = vicon->twist.twist.angular.x;
     actual_data(0,1) = vicon->twist.twist.angular.y;
     actual_data(0,2) = vicon->twist.twist.angular.z;
-    // actual_data(0,3) = 0;
-    // actual_data(0,4) = ros::Time::now().toSec();
     ang_vel_vicon = join_vert(ang_vel_vicon, actual_data);
 
     bottom = 0;
-
-    // cout << "Timing vicon = " << ros::Time::now() << "\n";
 
     ekf_counter = 0;
   }
@@ -138,8 +102,6 @@ void Evaluation::error_calculation()
   fmat final_distance_error;
 
   cout << "N = " << N << ", M = " << M << "\n";
-  // position_ekf.print("position_ekf final:");
-  // position_vicon.print("position_vicon final:");
 
   if (N<M) {
     cout << "N<M" << "\n";
@@ -175,11 +137,11 @@ void Evaluation::error_calculation()
 
 
   // Compute mean square error
-  distance_error = sum(sqrt(sum((position_ekf-position_vicon)%(position_ekf-position_vicon),1)))/L;
-  position_error = sqrt(sum((position_ekf-position_vicon)%(position_ekf-position_vicon),0)/L);
-  lin_vel_error = sqrt(sum((lin_vel_ekf-lin_vel_vicon)%(lin_vel_ekf-lin_vel_vicon),0)/L);
-  ang_vel_error = sqrt(sum((ang_vel_ekf-ang_vel_vicon)%(ang_vel_ekf-ang_vel_vicon),0)/L);
-  orientation_error = sqrt(sum((orientation_ekf-orientation_vicon)%(orientation_ekf-orientation_vicon),0)/L);
+  distance_error = sum(sum((position_ekf-position_vicon)%(position_ekf-position_vicon),1))/L;
+  position_error = sum((position_ekf-position_vicon)%(position_ekf-position_vicon),0)/L;
+  lin_vel_error = sum((lin_vel_ekf-lin_vel_vicon)%(lin_vel_ekf-lin_vel_vicon),0)/L;
+  ang_vel_error = sum((ang_vel_ekf-ang_vel_vicon)%(ang_vel_ekf-ang_vel_vicon),0)/L;
+  orientation_error = sum((orientation_ekf-orientation_vicon)%(orientation_ekf-orientation_vicon),0)/L;
 
   // Compute peak values
   fmat x_error = sort(abs(position_ekf.col(0)-position_vicon.col(0)), "ascend");
@@ -254,22 +216,22 @@ void Evaluation::error_calculation()
   final_position_error.print("final_position_error:");
   final_orientation_error.print("final_orientation_error:");
 
-  position_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/position_error.txt", arma_ascii);
-  distance_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/distance_error.txt", arma_ascii);
-  lin_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/lin_vel_error.txt", arma_ascii);
-  ang_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/ang_vel_error.txt", arma_ascii);
-  orientation_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/orientation_error.txt", arma_ascii);
+  position_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/position_error.txt", arma_ascii);
+  distance_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/distance_error.txt", arma_ascii);
+  lin_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/lin_vel_error.txt", arma_ascii);
+  ang_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/ang_vel_error.txt", arma_ascii);
+  orientation_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/orientation_error.txt", arma_ascii);
 
-  peak_pos_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_pos_error.txt", arma_ascii);
-  peak_dist_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_dist_error.txt", arma_ascii);
-  peak_linvel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_linvel_error.txt", arma_ascii);
-  peak_anglvel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_anglvel_error.txt", arma_ascii);
-  peak_orient_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/peak_orient_error.txt", arma_ascii);
+  peak_pos_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/peak_pos_error.txt", arma_ascii);
+  peak_dist_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/peak_dist_error.txt", arma_ascii);
+  peak_linvel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/peak_linvel_error.txt", arma_ascii);
+  peak_anglvel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/peak_anglvel_error.txt", arma_ascii);
+  peak_orient_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/peak_orient_error.txt", arma_ascii);
 
-  final_lin_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_lin_vel_error.txt", arma_ascii);
-  final_ang_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_ang_vel_error.txt", arma_ascii);
-  final_distance_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_distance_error.txt", arma_ascii);
-  final_position_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_position_error.txt", arma_ascii);
-  final_orientation_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/only_radar/final_orientation_error.txt", arma_ascii);
+  final_lin_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/final_lin_vel_error.txt", arma_ascii);
+  final_ang_vel_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/final_ang_vel_error.txt", arma_ascii);
+  final_distance_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/final_distance_error.txt", arma_ascii);
+  final_position_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/final_position_error.txt", arma_ascii);
+  final_orientation_error.save("/home/menichea/Desktop/SemesterProject_RadialInertialStateEstimation/results/final_orientation_error.txt", arma_ascii);
 
 }
